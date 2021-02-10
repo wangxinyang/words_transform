@@ -1,7 +1,7 @@
 <template>
   <view class="card_minutes_wrap">
     <view class="desc" v-for="(item, index) in cardArrayMinutes" :key="index">
-      {{ item }} 个字的演讲需要多长时间？ <span class="underline"> {{ (item / 240).toFixed(1) }}</span> 分钟
+      {{ item }} 个单字的演讲需要多长时间？ <span class="underline"> {{ (item / 240).toFixed(1) }}</span> 分钟
     </view>
   </view>
 </template>

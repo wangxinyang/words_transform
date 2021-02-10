@@ -4,6 +4,24 @@
       "path": "pages/index/index"
     },
     {
+      "path": "pages/article/index",
+      "style": {
+        "navigationBarTitleText": "文章"
+      }
+    },
+    {
+      "path": "pages/article_detail/index",
+      "style": {
+        "navigationBarTitleText": "文章详情"
+      }
+    },
+    {
+      "path": "pages/video/index",
+      "style": {
+        "navigationBarTitleText": "视频"
+      }
+    },
+    {
       "path": "pages/mine/index",
       "style": {
         "navigationBarTitleText": "我的"
@@ -21,6 +39,18 @@
         "iconPath": "static/images/_transform.png",
         "selectedIconPath": "static/images/transform.png",
         "text": "换算"
+      },
+      {
+        "pagePath": "pages/article/index",
+        "iconPath": "static/images/_article.png",
+        "selectedIconPath": "static/images/article.png",
+        "text": "文章"
+      },
+      {
+        "pagePath": "pages/video/index",
+        "iconPath": "static/images/_video.png",
+        "selectedIconPath": "static/images/video.png",
+        "text": "视频"
       },
       {
         "pagePath": "pages/mine/index",

@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="desc" v-for="(item, index) in cardArray" :key="index">
-      {{ item }} 分钟演讲中包含 <span class="underline">{{ item * speed }} </span> 个单词
+      {{ item }} 分钟演讲中包含 <span class="underline">{{ item * speed }} </span> 个单字
     </view>
   </view>
 </template>

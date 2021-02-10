@@ -5,7 +5,7 @@
       <view class="card_content">
         <view class="p_wrap">你想知道演讲要花多长时间吗?</view>
         <view class="p_wrap"
-          >这个小程序可以在线免费帮你把字数转换成演讲所需的时间。这个工具在准备演讲或报告时很有用。 你需要花多少分钟取决于字数和你的说话速度，或阅读速度。</view
+          >这个小程序可以在线免费帮你把字数转换成演讲所需的时间。这个工具在准备演讲或报告时很有用。你需要花多少分钟取决于字数和你的说话速度，或阅读速度。</view
         >
         <view>注:此计算器仅提供参考数据。</view>
       </view>
@@ -32,7 +32,7 @@
     </view>
     <!-- 计算部分结束 -->
     <view class="over_view">
-      <view class="content"> 以下概述提供了语音分钟的指示（基于每分钟240个单词的平均阅读速度）: </view>
+      <view class="content"> 以下概述提供了语音分钟的指示（基于每分钟240个单字的平均语速）: </view>
     </view>
     <Card :cardArray="cardArray" :speed="240"></Card>
     <CardMinutes :cardArrayMinutes="cardArrayMinutes"></CardMinutes>
@@ -49,14 +49,21 @@ export default {
       minutes: 0,
       words: 0,
       speed: 240,
-      speedArr: [240, 185, 300],
-      array: ['均速240字/分钟', '慢速185字/分钟', '快速300字/分钟'],
-      index: 0,
+      speedArr: [185, 240, 300],
+      array: ['慢速185字/分钟', '均速240字/分钟', '快速300字/分钟'],
+      index: 1,
       cardArray: [1, 2, 3, 4, 5, 10, 15, 20],
       cardArrayMinutes: [500, 1000, 1250, 1500, 1750, 2000, 2500, 5000]
     }
   },
 
+  onLoad () {
+    wx.showShareMenu({
+      withShareTicket: true,
+      //设置下方的Menus菜单，才能够让发送给朋友与分享到朋友圈两个按钮可以点击
+      menus: ["shareAppMessage", "shareTimeline"]
+    })
+  },
 
   components: {
     Card,
@@ -64,6 +71,28 @@ export default {
   },
 
   methods: {
+    //发送给朋友
+    onShareAppMessage (res) {
+      return {
+        title: '欢迎使用字时换算',
+        type: 0,
+        path: '/pages/index/index',
+        summary: "",
+        imageUrl: "../../static/images/shouye.jpeg"
+      }
+    },
+
+    //分享到朋友圈
+    onShareTimeline (res) {
+      return {
+        title: '欢迎使用字时换算',
+        type: 0,
+        query: '',
+        summary: "",
+        imageUrl: "../../static/images/shouye.jpeg"
+      }
+    },
+
     onKeyInput: function (event) {
       this.words = event.target.value
       this.calcMinutes()
@@ -76,6 +105,9 @@ export default {
     },
 
     calcMinutes () {
+      console.log(this.words)
+      console.log(this.speed)
+      console.log(this.words / this.speed)
       this.minutes = (this.words / this.speed).toFixed(1)
     }
   }
