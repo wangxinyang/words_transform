@@ -1,6 +1,12 @@
 {
   "pages": [
     {
+      "path": "pages/mine/index",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
       "path": "pages/index/index"
     },
     {
@@ -15,16 +21,29 @@
         "navigationBarTitleText": "文章详情"
       }
     },
+
+    {
+      "path": "pages/chain/index",
+      "style": {
+        "navigationBarTitleText": "创建接龙"
+      }
+    },
+    {
+      "path": "pages/chain/chain_list",
+      "style": {
+        "navigationBarTitleText": "我的接龙"
+      }
+    },
+    {
+      "path": "pages/chain/chain_detail",
+      "style": {
+        "navigationBarTitleText": "接龙概述"
+      }
+    },
     {
       "path": "pages/video/index",
       "style": {
         "navigationBarTitleText": "视频"
-      }
-    },
-    {
-      "path": "pages/mine/index",
-      "style": {
-        "navigationBarTitleText": "我的"
       }
     }
   ],

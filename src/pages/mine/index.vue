@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="info_content">
     <view v-if="isShow">
       <view class="user_wrap">
         <view class="avatar_info">
@@ -8,6 +8,18 @@
         <view class="name_info">
           <view class="name">{{ userInfo.nickName }} </view>
           <view class="name-pr">给你一个舞台，上演属于你的精彩</view>
+        </view>
+      </view>
+      <view class="chain_wrap">
+        <view class="chain_events">
+          <view class="chain_events-item" @click="naviNewChain">
+            <view class="iconfont icon-baoming"></view>
+            <view>通知公告</view>
+          </view>
+          <view class="chain_events-item" @click="naviChainDetail">
+            <view class="iconfont icon-xian"></view>
+            <view>活动接龙</view>
+          </view>
         </view>
       </view>
       <view class="copy_right">© 2021 All rights reserved</view>
@@ -20,7 +32,7 @@
         <view>申请获取以下权限</view>
         <text>获得你的公开信息(昵称，头像、地区等)</text>
       </view>
-      <button class="bottom" type="primary" open-type="getUserInfo" @getuserinfo="getuserinfo" withCredentials="true">受权登陆</button>
+      <button class="bottom" type="primary" @tap="getUserInfo" withCredentials="true">授权登陆</button>
     </view>
   </view>
 </template>
@@ -36,41 +48,69 @@ export default {
   },
 
   onLoad () {
-
+    var that = this
+    // 判断用户是否授权
+    uni.getStorage({
+      key: 'userInfo',
+      success: function (res) {
+        that.isShow = true
+        that.userInfo = res.data
+      }
+    })
   },
 
   methods: {
-    getuserinfo () {
+    getUserInfo () {
       let _this = this
-      uni.login({
-        provider: 'weixin',
-        success: function (loginRes) {
-          // 获取用户信息				
-          uni.getUserInfo({
-            provider: 'weixin',
-            success: function (infoRes) {
-              console.log(infoRes.userInfo)
-              _this.userInfo = infoRes.userInfo
-              _this.isShow = true
-              uni.redirectTo({
-                url: '/page/mine/index',
-              })
-            },
-            fail: function (err) {
-              uni.showToast({
-                title: '用户未授权',
-                icon: 'none'
-              })
+      uni.getUserProfile({
+        desc: '用于完善用户信息',
+        lang: 'zh_CN',
+        success: res => {
+          console.log(res)
+          _this.userInfo = res.userInfo
+          _this.isShow = true
+          uni.setStorage({
+            key: 'userInfo',
+            data: res.userInfo,
+            success: function () {
+              console.log('success')
             }
           })
+          // 强制更新
+          _this.$forceUpdate()
         },
-        fail: function (err) {
+        fail: err => {
           uni.showToast({
-            title: '用户登录失败',
+            title: '用户未授权',
             icon: 'none'
           })
         }
+      })
+    },
 
+    // 发起活动接龙
+    naviNewChain () {
+      uni.navigateTo({
+        url: '/pages/chain/index',
+        success: function (res) {
+          console.log(res)
+        },
+        fail: function (err) {
+          console.log(err)
+        }
+      })
+    },
+
+    // 查看已有的活动接龙
+    naviChainDetail () {
+      uni.navigateTo({
+        url: '/pages/chain/chain_list',
+        success: function (res) {
+          console.log(res)
+        },
+        fail: function (err) {
+          console.log(err)
+        }
       })
     }
   }
@@ -79,12 +119,19 @@ export default {
 </script>
 
 <style lang="scss">
+.info_content {
+  background-color: #f6f6f6;
+  height: 100vh;
+}
+
 .user_wrap {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 20rpx;
-  width: 90%;
+  margin: 0 auto;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 2rpx 2rpx 0 2rpx rgba(0, 0, 0, 0.1);
   .avatar_info {
     flex: 1;
     margin-right: 30rpx;
@@ -95,11 +142,9 @@ export default {
   }
 
   .name_info {
-    flex: 2;
+    flex: 3;
     height: 200rpx;
-    background-color: #fff;
-    border-radius: 6rpx;
-    box-shadow: 2rpx 2rpx 0 2rpx rgba(0, 0, 0, 0.1);
+
     .name {
       font-size: 34rpx;
       font-weight: 400;
@@ -113,8 +158,24 @@ export default {
   }
 }
 
+.chain_wrap {
+  margin-top: 30rpx;
+  padding: 0 20rpx;
+  background-color: #fff;
+
+  .chain_events .iconfont {
+    font-size: 100rpx;
+  }
+
+  .chain_events {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
 .copy_right {
   width: 90%;
+  margin-top: 600rpx;
   text-align: center;
 }
 
